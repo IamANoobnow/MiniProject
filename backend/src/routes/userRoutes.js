@@ -1,9 +1,16 @@
 const express = require('express');
+const { registerUser, loginUser, getUserProfile } = require('../controllers/userController');
+const { authMiddleware } = require('../middleware/authMiddleware');
+
 const router = express.Router();
 
-// Example route
-router.get('/', (req, res) => {
-  res.send('Hello from User Route');
-});
+// Register a new user
+router.post('/register', registerUser);
 
-module.exports = router;  // Make sure to export the router
+// User login
+router.post('/login', loginUser);
+
+// Get user profile (protected route)
+router.get('/profile', authMiddleware, getUserProfile);
+
+module.exports = router;
